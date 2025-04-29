@@ -63,7 +63,7 @@ export default function SelectedCollection() {
           <Link to={`/user/${collection.creatorId}`} className="selected-collection__author">
             By {collection.creator}
             <img
-              src="/verified.png" // adjust path if necessary
+              src="/src/assets/verified.png"
               alt="Verified"
               className="selected-collection__author__verified"
             />
