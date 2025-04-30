@@ -501,6 +501,26 @@ html {
 }
 
 /* New Collections + Popular Collections */
+.swiper-button-next,
+.swiper-button-prev {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  color: black;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 18px;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #f0f0f0;
+}
 
 .new-collections__title,
 .popular-collections__title {
@@ -514,6 +534,7 @@ html {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+  /* margin: 0px 40px; */
 }
 
 .collection-column {
