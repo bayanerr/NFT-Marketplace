@@ -56,6 +56,7 @@ export default function ItemPage() {
     favorites,
     collection,
     owner,
+    ownerId,
     collectionId,
   } = itemData;
 
@@ -101,7 +102,7 @@ export default function ItemPage() {
               <span className="item-page__owner">
                 Owned by{" "}
                 <Link
-                  to={`/user/${owner}`}
+                  to={`/user/${ownerId}`}
                   className="light-blue item-page__owner__link"
                 >
                   {owner}
