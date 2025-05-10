@@ -5,15 +5,59 @@ import {
   faShoppingBag,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import RecommendedItems from "../components/item/RecommendedItems";
 import { faEthereum } from "@fortawesome/free-brands-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function ItemPage() {
+  const { itemId } = useParams();
+  const [itemData, setItemData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (!itemId) return;
+
+    const fetchCollectionData = async () => {
+      try {
+        const response = await fetch(
+          `https://remote-internship-api-production.up.railway.app/item/${itemId}`
+        );
+        const data = await response.json();
+        if (data.status === "success") {
+          setItemData(data.data);
+        } else {
+          console.error("Collection data not found.");
+        }
+      } catch (error) {
+        console.error("Error fetching collection data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCollectionData();
+  }, [itemId]);
+
+  if (loading) return <div>Loading collection...</div>;
+  if (!itemData) return <div>No data found for this collection.</div>;
+
+  const {
+    title,
+    views,
+    category,
+    imageLink,
+    usdPrice,
+    ethPrice,
+    favorites,
+    collection,
+    owner,
+    collectionId,
+  } = itemData;
 
   return (
     <>
@@ -32,31 +76,35 @@ export default function ItemPage() {
                       icon={faHeart}
                       className="item-page__img__icon"
                     />
-                    <span className="item-page__img__likes__text">11</span>
+                    <span className="item-page__img__likes__text">
+                      {favorites}
+                    </span>
                   </div>
                 </div>
                 <img
-                  src="https://i.seadn.io/gcs/files/0a085499e0f3800321618af356c5d36b.png?auto=format&dpr=1&w=1000"
-                  alt=""
+                  src={imageLink}
+                  alt={title}
                   className="item-page__img"
                 />
               </figure>
             </div>
             <div className="item-page__right">
               <Link
-                to={"/collection"}
+                to={`/collection/${collection}`}
                 className="item-page__collection light-blue"
               >
-                Meebits
+                {collection} {category}
               </Link>
-              <h1 className="item-page__name">Meebit #18854</h1>
+              <h1 className="item-page__name">
+                {category} {title}
+              </h1>
               <span className="item-page__owner">
                 Owned by{" "}
                 <Link
-                  to={"/user"}
+                  to={`/user/${owner}`}
                   className="light-blue item-page__owner__link"
                 >
-                  shilpixels
+                  {owner}
                 </Link>
               </span>
               <div className="item-page__details">
@@ -65,34 +113,39 @@ export default function ItemPage() {
                     icon={faEye}
                     className="item-page__detail__icon"
                   />
-                  <span className="item-page__detail__text">324 views</span>
+                  <span className="item-page__detail__text">{views} views</span>
                 </div>
                 <div className="item-page__detail">
                   <FontAwesomeIcon
                     icon={faHeart}
                     className="item-page__detail__icon"
                   />
-                  <span className="item-page__detail__text">11 favorites</span>
+                  <span className="item-page__detail__text">
+                    {favorites} favorites
+                  </span>
                 </div>
                 <div className="item-page__detail">
                   <FontAwesomeIcon
                     icon={faShapes}
                     className="item-page__detail__icon"
                   />
-                  <span className="item-page__detail__text">PFPs</span>
+                  <span className="item-page__detail__text">{category}</span>
                 </div>
               </div>
               <div className="item-page__sale">
                 <div className="item-page__sale__header">
                   <div className="green-pulse"></div>
                   <span>Sale ends in 2h 30m 56s</span>
+                  {/* Consider calculating this from `expiryDate` if needed */}
                 </div>
                 <div className="item-page__sale__body">
                   <span className="item-page__sale__label">Current price</span>
                   <div className="item-page__sale__price">
-                    <span className="item-page__sale__price__eth">100 ETH</span>
+                    <span className="item-page__sale__price__eth">
+                      {ethPrice} ETH
+                    </span>
                     <span className="item-page__sale__price__dollars">
-                      $314,884.00
+                      {usdPrice}
                     </span>
                   </div>
                   <div className="item-page__sale__buttons">
@@ -116,7 +169,7 @@ export default function ItemPage() {
         </div>
       </section>
 
-      <RecommendedItems />
+      <RecommendedItems collectionId={collectionId}/>
     </>
   );
 }
