@@ -6,8 +6,18 @@ import "swiper/css";
 import "swiper/css/navigation";
 import Skeleton from "../ui/Skeleton";
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 export default function NewCollections() {
   const [collections, setCollections] = useState([]);
+  useEffect(() => {
+    AOS.init({
+      duration: 500, 
+      once: false,     
+    });
+  }, []);
+
   useEffect(() => {
     fetch("https://remote-internship-api-production.up.railway.app/newCollections")
       .then((response) => response.json())
@@ -43,7 +53,7 @@ export default function NewCollections() {
   );
   return (
     <section id="new-collections">
-      <div className="container">
+      <div className="container" data-aos="fade-up">
         <div className="row">
           <h2 className="new-collections__title">New Collections</h2>
           <div className="new-collections__body" style={{ minHeight: "250px" }}>
