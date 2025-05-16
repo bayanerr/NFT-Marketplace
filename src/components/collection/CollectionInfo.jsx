@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
+
 export default function CollectionInfo() {
   const { collectionId } = useParams();
   const [collectionData, setCollectionData] = useState(null);
@@ -30,7 +31,11 @@ export default function CollectionInfo() {
     fetchCollectionData();
   }, [collectionId]);
 
-  if (loading) return <div>Loading collection...</div>;
+  if (loading) {
+    return (
+    <div></div>
+    );
+  }
   if (!collectionData) return <div>No data found for this collection.</div>;
 
   const {

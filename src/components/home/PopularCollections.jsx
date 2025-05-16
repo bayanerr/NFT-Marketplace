@@ -6,9 +6,19 @@ import "swiper/css";
 import "swiper/css/navigation";
 import Skeleton from "../ui/Skeleton";
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function PopularCollections() {
   const [collections, setCollections] = useState([]);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 500, 
+      once: false,     
+    });
+  }, []);
+
   useEffect(() => {
     fetch("https://remote-internship-api-production.up.railway.app/popularCollections")
       .then((response) => response.json())
@@ -44,7 +54,7 @@ export default function PopularCollections() {
   );
   return (
     <section id="popular-collections">
-      <div className="container">
+      <div className="container" data-aos="fade-up">
         <div className="row">
           <h2 className="popular-collections__title">Popular Collections</h2>
           <div className="popular-collections__body" style={{ minHeight: "250px" }}>
