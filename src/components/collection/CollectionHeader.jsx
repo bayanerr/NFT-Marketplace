@@ -37,6 +37,7 @@ export default function CollectionHeader() {
     imageLink: profileImage,
     title: name,
     creator: author,
+    creatorId,
     totalVolume,
     floor,
     bestOffer,
@@ -61,7 +62,7 @@ export default function CollectionHeader() {
               className="collection-header__img"
             />
             <div className="collection-header__name">{name}</div>
-            <Link to={`/user/${author}`} className="collection-header__author">
+            <Link to={`/user/${creatorId}`} className="collection-header__author">
               {author}
             </Link>
           </div>
