@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import RecommendedItems from "../components/item/RecommendedItems";
 import { faEthereum } from "@fortawesome/free-brands-svg-icons";
 import { Link, useParams } from "react-router-dom";
-
+import Skeleton from "../components/ui/Skeleton";
 export default function ItemPage() {
   const { itemId } = useParams();
   const [itemData, setItemData] = useState(null);
@@ -43,7 +43,24 @@ export default function ItemPage() {
     fetchCollectionData();
   }, [itemId]);
 
-  if (loading) return <div>Loading collection...</div>;
+  if (loading)
+    return (
+      <section id="item-info">
+        <div className="container">
+          <div className="row item-page__row">
+            <div className="item-page__left">
+              <figure className="item-page__img__wrapper">
+                <Skeleton width="100%" height="800px" borderRadius="12px" />
+              </figure>
+            </div>
+            <div className="item-page__right">
+              <Skeleton width="100%" height="40%" borderRadius="12px"  />
+             
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   if (!itemData) return <div>No data found for this collection.</div>;
 
   const {

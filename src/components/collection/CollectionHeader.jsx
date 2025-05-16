@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-
+import Skeleton
+ from "../ui/Skeleton";
 export default function CollectionHeader() {
   const { collectionId } = useParams();
   const [collectionData, setCollectionData] = useState(null);
@@ -30,7 +31,13 @@ export default function CollectionHeader() {
     fetchCollectionData();
   }, [collectionId]);
 
-  if (loading) return <div>Loading collection...</div>;
+  if (loading) {
+    return (
+      <header id="collection-header">
+          <Skeleton width="100%" height="100%" borderRadius="0px" />
+      </header>
+    );
+  }
   if (!collectionData) return <div>No data found for this collection.</div>;
 
   const {
